@@ -237,7 +237,14 @@ section{padding:78px 0;position:relative}
 .detail-body h3{font-family:'Fraunces',serif;font-weight:600;font-size:25px;margin:46px 0 16px;letter-spacing:-.01em}
 .detail-body p{margin-bottom:18px;color:var(--ink-soft)}
 .detail-body p strong{color:var(--ink);font-weight:600}
-.figure{margin:36px 0 12px}
+.detail-body .figure{margin:36px 0 12px}
+.case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:34px 0;
+  padding:30px;background:var(--indigo);border-radius:6px;color:var(--paper)}
+@media(max-width:680px){.case-stats{grid-template-columns:1fr;gap:24px}}
+.case-stats .cn{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,4vw,44px);
+  line-height:1;letter-spacing:-.02em;color:#fff}
+.case-stats .cl{font-size:13.5px;color:rgba(233,238,243,.78);margin-top:9px;line-height:1.4}
+.case-stats .cl strong{color:var(--teal-bright);font-weight:600}
 .figure img{width:100%;border:1px solid var(--line);border-radius:4px;background:#fff;
   box-shadow:0 18px 40px -28px rgba(25,31,58,.4)}
 .figure figcaption{font-size:13.5px;color:var(--ink-soft);margin-top:12px;font-style:italic;
@@ -520,6 +527,43 @@ const CASES = [
       {h:"Honest limits"},
       {p:"The accessibility measure is a Euclidean service proxy, not a routed travel-time model; the five data sources span different reference years; and the low-income benchmark is an internal heuristic, not official HUD AMI. None of these undermine the central finding — that disadvantage stacks in a small, identifiable set of places — but each is a documented refinement path (a network-based r5r version is the natural next step)."}
     ]
+  },
+
+  {
+    id:"regional-resilience",
+    kicker:"Regional Economics · Spatial Panel · Machine Learning",
+    title:"When a Common Shock Strengthens Spatial Co-Movement",
+    sub:"Did COVID-19 erase or amplify the spatial structure of regional economies? A spatial-panel and machine-learning study of business establishment exits across 364 U.S. metros.",
+    thumb:"images/rs_shap_importance.png",
+    badge:"Working paper",
+    minitags:["Spatial panel","Two-way FE","XGBoost · spatial CV","364 MSAs"],
+    meta:{
+      "Scope":"364 U.S. metros · 2015–2022 · 1,456 metro-years",
+      "Data":"Census BDS, ACS, NYT COVID, SBA PPP, FEMA NRI",
+      "Methods":"Spatially augmented two-way FE panel + XGBoost (spatial-block CV)",
+      "Stack":"R (panel models, spatial weights, XGBoost/SHAP)"
+    },
+    links:[
+      {label:"Read the working paper",href:"#",primary:true}
+    ],
+    sowhat:"For business closures during a national shock, <strong>where a metro sat mattered more than how diversified its industries were</strong>. The common shock amplified spatial co-movement rather than washing it out — and broad industrial diversification offered no detectable protection, challenging the standard \"diversification as insurance\" intuition.",
+    body:[
+      {h:"The question"},
+      {p:"A common national shock might be expected to push every regional economy the same way and flatten the role of spatial structure. COVID-19 was a chance to test that. I measure resilience through <strong>establishment exit rates</strong> (firm closures) rather than employment, because pandemic-era payroll programs (PPP, expanded unemployment) badly distorted the usual employment-based indicators."},
+      {stats:[
+        {n:"364",lab:"U.S. metro areas, <strong>2015–2022</strong>"},
+        {n:"ρ ≈ 0.72",lab:"spatial-lag coefficient — <strong>strong cross-metro co-movement</strong>"},
+        {n:"~0",lab:"detectable protective effect from <strong>industrial diversification</strong>"}
+      ]},
+      {h:"What I did"},
+      {p:"I estimated <strong>spatially augmented two-way fixed-effects panel models</strong> (k-nearest-neighbour spatial weights, Driscoll-Kraay and clustered standard errors) across 364 metros, then complemented them with an <strong>XGBoost model under spatial-block cross-validation</strong> as a cross-method check — testing whether a flexible algorithm without the linearity or fixed-effects assumptions tells the same story."},
+      {h:"What I found"},
+      {p:"Establishment exits showed strong contemporaneous spatial co-movement that <strong>intensified during the pandemic</strong> — neighbouring metros moved together more, not less, under the common shock. Broad industrial diversification was statistically indistinguishable from zero. Pre-pandemic sectoral exposure mattered only selectively (retail trade showed the clearest signal)."},
+      {fig:"images/rs_shap_importance.png",cap:"XGBoost feature importance (mean |SHAP|) triangulates the parametric story: manufacturing exposure, demographics, metro size, and the spatial lag of COVID severity rank highest."},
+      {p:"The machine-learning results echo the parametric models rather than contradicting them — a useful cross-method check that the spatial-structure finding isn't an artifact of one modelling choice."},
+      {h:"Status & limits"},
+      {p:"This is a working paper (manuscript under review); the findings are descriptive rather than causal. It's included here as a worked analysis demonstrating spatial-panel econometrics and interpretable machine learning on a national MSA panel."}
+    ]
   }
 
   /* ---------- TEMPLATE: simple stacked case (copy & edit) ----------
@@ -653,6 +697,7 @@ function openCase(id){
     mainHtml=`<div class="detail-body">${c.body.map(b=>{
       if(b.h)return `<h3>${b.h}</h3>`;
       if(b.p)return `<p>${b.p}</p>`;
+      if(b.stats)return `<div class="case-stats">${b.stats.map(s=>`<div><div class="cn">${s.n}</div><div class="cl">${s.lab}</div></div>`).join('')}</div>`;
       if(b.fig)return `<figure class="figure"><img src="${b.fig}" alt=""><figcaption>${b.cap||''}</figcaption></figure>`;
       return '';}).join('')}</div>`;
   }
