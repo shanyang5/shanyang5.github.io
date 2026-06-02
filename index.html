@@ -17,10 +17,21 @@
 ====================================================================
 -->
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,0,700;9..144,1,500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-600-normal.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-500-italic.woff2') format('woff2');font-weight:500;font-style:italic;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url('fonts/hanken-grotesk-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url('fonts/hanken-grotesk-latin-500-normal.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url('fonts/hanken-grotesk-latin-600-normal.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url('fonts/hanken-grotesk-latin-700-normal.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2');font-weight:500;font-display:swap}
+</style>
 
 <style>
 :root{
@@ -55,7 +66,7 @@ a{color:inherit}
 nav{position:sticky;top:0;z-index:50;background:rgba(233,238,243,.82);
   backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-.brand{font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:.01em}
+.brand{font-family:'Newsreader',serif;font-weight:600;font-size:19px;letter-spacing:.01em}
 .brand span{color:var(--teal)}
 .navlinks{display:flex;gap:30px;font-size:14.5px;font-weight:500}
 .navlinks a{text-decoration:none;color:var(--ink-soft);transition:color .2s;position:relative}
@@ -71,7 +82,7 @@ header.hero{padding:96px 0 64px;position:relative}
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--teal);margin-bottom:22px;display:flex;align-items:center;gap:12px}
 .eyebrow::before{content:"";width:34px;height:1px;background:var(--teal)}
-h1.name{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(44px,7vw,76px);
+h1.name{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(44px,7vw,76px);
   line-height:.98;letter-spacing:-.015em;color:var(--ink);margin-bottom:26px}
 h1.name em{font-style:italic;color:var(--indigo)}
 .lede{font-size:19px;color:var(--ink-soft);max-width:30em;margin-bottom:30px}
@@ -113,7 +124,7 @@ h1.name em{font-style:italic;color:var(--indigo)}
   background:radial-gradient(circle at 80% 20%,var(--teal-bright),transparent 55%)}
 .statband .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;padding:54px 32px;position:relative}
 @media(max-width:760px){.statband .wrap{grid-template-columns:1fr 1fr;gap:36px 20px}}
-.stat .num{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,5vw,52px);
+.stat .num{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(34px,5vw,52px);
   line-height:1;letter-spacing:-.02em;color:#fff}
 .stat .num .sm{font-size:.5em;color:var(--teal-bright);margin-left:2px}
 .stat .lab{font-size:13.5px;color:rgba(233,238,243,.72);margin-top:10px;line-height:1.35}
@@ -123,7 +134,7 @@ h1.name em{font-style:italic;color:var(--indigo)}
 section{padding:78px 0;position:relative}
 .sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:46px}
 .sec-num{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--teal);letter-spacing:.1em}
-.sec-title{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4vw,40px);letter-spacing:-.01em}
+.sec-title{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(28px,4vw,40px);letter-spacing:-.01em}
 .divider{border:none;border-top:1px solid var(--line);margin:0}
 
 /* ABOUT */
@@ -155,7 +166,7 @@ section{padding:78px 0;position:relative}
 .card-body{padding:24px 26px 28px;flex:1;display:flex;flex-direction:column}
 .card-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--teal);margin-bottom:11px}
-.card-title{font-family:'Fraunces',serif;font-weight:600;font-size:23px;line-height:1.15;margin-bottom:10px}
+.card-title{font-family:'Newsreader',serif;font-weight:600;font-size:23px;line-height:1.15;margin-bottom:10px}
 .card-sub{font-size:15px;color:var(--ink-soft);margin-bottom:18px;flex:1}
 .card-meta{display:flex;flex-wrap:wrap;gap:7px}
 .minitag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);
@@ -178,7 +189,7 @@ section{padding:78px 0;position:relative}
 .detail-content{padding:54px 0 40px}
 .detail-kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--teal);margin-bottom:18px}
-.detail-title{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(32px,5vw,52px);
+.detail-title{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(32px,5vw,52px);
   line-height:1.02;letter-spacing:-.015em;margin-bottom:20px;max-width:16em}
 .detail-lede{font-size:20px;color:var(--ink-soft);max-width:34em;margin-bottom:34px}
 .detail-links{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:50px}
@@ -193,7 +204,7 @@ section{padding:78px 0;position:relative}
   background:radial-gradient(circle at 85% 30%,var(--teal-bright),transparent 50%)}
 .sowhat .lbl{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--teal-bright);margin-bottom:16px;position:relative}
-.sowhat p{font-family:'Fraunces',serif;font-size:22px;line-height:1.4;font-weight:400;position:relative}
+.sowhat p{font-family:'Newsreader',serif;font-size:22px;line-height:1.4;font-weight:400;position:relative}
 .sowhat p strong{font-weight:600;color:#fff}
 
 /* SCROLLYTELLING */
@@ -218,7 +229,7 @@ section{padding:78px 0;position:relative}
 .step.active .step-card{border-left-color:var(--teal);box-shadow:0 16px 36px -26px rgba(25,31,58,.4)}
 .step-n{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;
   color:var(--teal);text-transform:uppercase;margin-bottom:10px}
-.step h3{font-family:'Fraunces',serif;font-weight:600;font-size:24px;line-height:1.12;margin-bottom:12px;letter-spacing:-.01em}
+.step h3{font-family:'Newsreader',serif;font-weight:600;font-size:24px;line-height:1.12;margin-bottom:12px;letter-spacing:-.01em}
 .step p{color:var(--ink-soft)}
 .step p strong{color:var(--ink);font-weight:600}
 /* mobile inline figure */
@@ -228,7 +239,7 @@ section{padding:78px 0;position:relative}
 @media(max-width:860px){.step-mobfig{display:block}}
 
 .detail-outro{max-width:42em;margin:30px 0 40px}
-.detail-outro h3{font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin:40px 0 14px}
+.detail-outro h3{font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:40px 0 14px}
 .detail-outro p{color:var(--ink-soft);margin-bottom:16px}
 .detail-outro p strong{color:var(--ink);font-weight:600}
 
@@ -239,14 +250,14 @@ section{padding:78px 0;position:relative}
 
 /* simple body (non-scrolly cases) */
 .detail-body{max-width:44em}
-.detail-body h3{font-family:'Fraunces',serif;font-weight:600;font-size:25px;margin:46px 0 16px;letter-spacing:-.01em}
+.detail-body h3{font-family:'Newsreader',serif;font-weight:600;font-size:25px;margin:46px 0 16px;letter-spacing:-.01em}
 .detail-body p{margin-bottom:18px;color:var(--ink-soft)}
 .detail-body p strong{color:var(--ink);font-weight:600}
 .detail-body .figure{margin:36px 0 12px}
 .case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:34px 0;
   padding:30px;background:var(--indigo);border-radius:6px;color:var(--paper)}
 @media(max-width:680px){.case-stats{grid-template-columns:1fr;gap:24px}}
-.case-stats .cn{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,4vw,44px);
+.case-stats .cn{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(30px,4vw,44px);
   line-height:1;letter-spacing:-.02em;color:#fff}
 .case-stats .cl{font-size:13.5px;color:rgba(233,238,243,.78);margin-top:9px;line-height:1.4}
 .case-stats .cl strong{color:var(--teal-bright);font-weight:600}
@@ -261,7 +272,7 @@ section{padding:78px 0;position:relative}
 .contact::after{content:"";position:absolute;inset:0;opacity:.1;pointer-events:none;
   background:radial-gradient(circle at 15% 80%,var(--teal-bright),transparent 50%)}
 @media(max-width:760px){.contact{grid-template-columns:1fr;padding:44px 32px}}
-.contact h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4vw,42px);line-height:1.05;margin-bottom:16px;position:relative}
+.contact h2{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(28px,4vw,42px);line-height:1.05;margin-bottom:16px;position:relative}
 .contact p{color:rgba(233,238,243,.78);max-width:30em;position:relative}
 .contact-links{display:flex;flex-direction:column;gap:12px;position:relative}
 .clink{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--paper);
@@ -282,10 +293,10 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 .pub:last-child{border-bottom:1px solid var(--line)}
 .pub:hover{background:rgba(255,255,255,.35)}
 @media(max-width:680px){.pub{grid-template-columns:1fr;gap:12px}}
-.pub-year{font-family:'Fraunces',serif;font-weight:600;font-size:26px;color:var(--indigo);line-height:1}
+.pub-year{font-family:'Newsreader',serif;font-weight:600;font-size:26px;color:var(--indigo);line-height:1}
 .pub-type{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
   text-transform:uppercase;color:var(--teal);margin-top:6px}
-.pub-main .pt{font-family:'Fraunces',serif;font-weight:600;font-size:20px;line-height:1.25;
+.pub-main .pt{font-family:'Newsreader',serif;font-weight:600;font-size:20px;line-height:1.25;
   letter-spacing:-.01em;margin-bottom:8px}
 .pub-main .pa{font-size:14.5px;color:var(--ink-soft);margin-bottom:8px}
 .pub-main .pa b{color:var(--ink);font-weight:600}
@@ -303,7 +314,7 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 /* INTERACTIVE MAP */
 .imap-wrap{margin:56px 0 10px}
 .imap-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:18px}
-.imap-title{font-family:'Fraunces',serif;font-weight:600;font-size:26px;letter-spacing:-.01em}
+.imap-title{font-family:'Newsreader',serif;font-weight:600;font-size:26px;letter-spacing:-.01em}
 .imap-toggle{display:flex;flex-wrap:wrap;gap:7px}
 .imap-btn{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.02em;
   padding:8px 13px;border:1px solid var(--line-strong);border-radius:3px;background:rgba(255,255,255,.4);
@@ -324,7 +335,7 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 .imap-hint{font-size:12.5px;color:var(--ink-soft);margin-top:12px;font-style:italic}
 .leaflet-tooltip.btip{background:var(--ink);color:var(--paper);border:none;border-radius:5px;
   padding:10px 13px;font-family:'Hanken Grotesk';font-size:12.5px;line-height:1.5;box-shadow:0 10px 24px -10px rgba(0,0,0,.5)}
-.leaflet-tooltip.btip strong{font-family:'Fraunces',serif;font-size:14px;color:#fff}
+.leaflet-tooltip.btip strong{font-family:'Newsreader',serif;font-size:14px;color:#fff}
 .leaflet-tooltip.btip .tv{color:var(--teal-bright);font-weight:600}
 .leaflet-tooltip.btip:before{display:none}
 .leaflet-container{font-family:'Hanken Grotesk'}
