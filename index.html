@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shan Yang — Spatial Analysis & Transportation Research</title>
+
+<!--
+====================================================================
+ ADDING A NEW CASE  (no web skills needed)
+ 1. Put figure images in the  images/  folder.
+ 2. Find the  CASES = [ ... ]  block below.
+ 3. Copy one whole { ... } object, paste as a new entry, edit text.
+    - Simple case: use a  body: [...]  array  (see template at bottom of CASES)
+    - Story case : use a  scrolly: [...]  array (like the Boston one)
+ 4. Save. The card + detail page build themselves.
+====================================================================
+-->
+
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-500-normal.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-600-normal.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-700-normal.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Newsreader';src:url('fonts/newsreader-latin-500-italic.woff2') format('woff2');font-weight:500;font-style:italic;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url('fonts/hanken-grotesk-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url('fonts/hanken-grotesk-latin-500-normal.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url('fonts/hanken-grotesk-latin-600-normal.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Hanken Grotesk';src:url('fonts/hanken-grotesk-latin-700-normal.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'JetBrains Mono';src:url('fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2');font-weight:500;font-display:swap}
+</style>
+
+<style>
+:root{
+  --paper:#e9eef3;
+  --paper-2:#dce3ec;
+  --ink:#1b2230;
+  --ink-soft:#3c4456;
+  --indigo:#26345c;
+  --indigo-deep:#161f3a;
+  --teal:#1f7a73;
+  --teal-bright:#2aa39a;
+  --rust:#b5532a;
+  --line:rgba(27,34,48,.14);
+  --line-strong:rgba(27,34,48,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:'Hanken Grotesk',sans-serif;font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:radial-gradient(rgba(27,34,48,.025) 1px,transparent 1px);
+  background-size:3px 3px;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
+a{color:inherit}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(233,238,243,.82);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font-family:'Newsreader',serif;font-weight:600;font-size:19px;letter-spacing:.01em}
+.brand span{color:var(--teal)}
+.navlinks{display:flex;gap:30px;font-size:14.5px;font-weight:500}
+.navlinks a{text-decoration:none;color:var(--ink-soft);transition:color .2s;position:relative}
+.navlinks a:hover{color:var(--ink)}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:-5px;height:2px;width:0;background:var(--teal);transition:width .25s}
+.navlinks a:hover::after{width:100%}
+@media(max-width:680px){.navlinks{display:none}}
+
+/* HERO */
+header.hero{padding:96px 0 64px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:64px;align-items:center}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:36px}}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--teal)}
+h1.name{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(44px,7vw,76px);
+  line-height:.98;letter-spacing:-.015em;color:var(--ink);margin-bottom:26px}
+h1.name em{font-style:normal;color:var(--indigo)}
+.lede{font-size:19px;color:var(--ink-soft);max-width:30em;margin-bottom:30px}
+.lede strong{color:var(--ink);font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:34px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.04em;
+  padding:6px 12px;border:1px solid var(--line-strong);border-radius:2px;
+  color:var(--ink-soft);background:rgba(255,255,255,.35)}
+.cta-row{display:flex;gap:16px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:600;
+  font-size:15px;padding:13px 22px;border-radius:3px;transition:all .2s;cursor:pointer;border:none}
+.btn-primary{background:var(--indigo);color:var(--paper)}
+.btn-primary:hover{background:var(--indigo-deep);transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line-strong);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--ink);background:rgba(255,255,255,.4)}
+
+/* animated hero map */
+.hero-art{position:relative;aspect-ratio:1/1;border:1px solid var(--line);
+  background:linear-gradient(135deg,#eef2f6,#e3e9f0 60%,#dde7e6);border-radius:6px;
+  overflow:hidden;box-shadow:none}
+.hero-art svg{position:absolute;inset:0;width:100%;height:100%}
+.hero-art .gridline{stroke:rgba(38,52,92,.18);stroke-width:1;fill:none;
+  stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.6s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.hero-art .pt{transform-origin:center;transform-box:fill-box}
+.hero-art .pulse{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.55;r:2.5}50%{opacity:1;r:4}}
+.hero-art .hot{animation:hot 2s ease-in-out infinite}
+@keyframes hot{0%,100%{opacity:.7}50%{opacity:1}}
+.hero-art .ring{fill:none;stroke:var(--rust);stroke-width:1.5;opacity:0;
+  animation:ring 3s ease-out infinite}
+@keyframes ring{0%{r:4;opacity:.8}100%{r:34;opacity:0}}
+.hero-art .label{position:absolute;bottom:14px;left:16px;font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;letter-spacing:.12em;color:rgba(38,52,92,.5);text-transform:uppercase}
+
+/* STAT BAND */
+.statband{background:var(--indigo);color:var(--paper);position:relative;overflow:hidden}
+.statband::after{content:"";position:absolute;inset:0;opacity:.08;pointer-events:none;
+  background:radial-gradient(circle at 80% 20%,var(--teal-bright),transparent 55%)}
+.statband .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;padding:54px 32px;position:relative}
+@media(max-width:760px){.statband .wrap{grid-template-columns:1fr 1fr;gap:36px 20px}}
+.stat .num{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(34px,5vw,52px);
+  line-height:1;letter-spacing:-.02em;color:#fff}
+.stat .num .sm{font-size:.5em;color:var(--teal-bright);margin-left:2px}
+.stat .lab{font-size:13.5px;color:rgba(233,238,243,.72);margin-top:10px;line-height:1.35}
+.stat .lab strong{color:var(--teal-bright);font-weight:600}
+
+/* SECTION */
+section{padding:78px 0;position:relative}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:46px}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--teal);letter-spacing:.1em}
+.sec-title{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(28px,4vw,40px);letter-spacing:-.01em}
+.divider{border:none;border-top:1px solid var(--line);margin:0}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:54px}
+@media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:32px}}
+.about-grid p{margin-bottom:18px;color:var(--ink-soft)}
+.about-grid p strong{color:var(--ink);font-weight:600}
+.facts{border-left:2px solid var(--teal);padding-left:24px}
+.fact{margin-bottom:22px}
+.fact .k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.fact .v{font-size:15.5px;color:var(--ink)}
+.fact .v em{color:var(--ink-soft);font-style:normal}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+@media(max-width:760px){.cards{grid-template-columns:1fr}}
+.card{background:rgba(255,255,255,.45);border:1px solid var(--line);border-radius:5px;
+  overflow:hidden;cursor:pointer;transition:all .28s cubic-bezier(.2,.7,.3,1);
+  display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.card:hover{transform:translateY(-5px);border-color:var(--line-strong);
+  box-shadow:0 24px 48px -28px rgba(25,31,58,.4)}
+.card-thumb{aspect-ratio:16/10;overflow:hidden;background:var(--paper-2);border-bottom:1px solid var(--line);position:relative}
+.card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card:hover .card-thumb img{transform:scale(1.045)}
+.card-thumb .badge{position:absolute;top:12px;left:12px;font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:rgba(31,122,115,.92);
+  color:#fff;padding:5px 9px;border-radius:2px}
+.card-body{padding:24px 26px 28px;flex:1;display:flex;flex-direction:column}
+.card-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:11px}
+.card-title{font-family:'Newsreader',serif;font-weight:600;font-size:23px;line-height:1.15;margin-bottom:10px}
+.card-sub{font-size:15px;color:var(--ink-soft);margin-bottom:18px;flex:1}
+.card-meta{display:flex;flex-wrap:wrap;gap:7px}
+.minitag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-soft);
+  border:1px solid var(--line);padding:4px 9px;border-radius:2px}
+.card-arrow{margin-top:18px;font-weight:600;font-size:14px;color:var(--indigo);display:flex;align-items:center;gap:7px}
+.card-arrow span{transition:transform .25s}
+.card:hover .card-arrow span{transform:translateX(5px)}
+
+/* DETAIL OVERLAY */
+.detail{display:none;position:fixed;inset:0;z-index:100;background:var(--paper);overflow-y:auto;scroll-behavior:smooth}
+.detail.open{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--teal);width:0;z-index:110;transition:width .1s}
+.detail-bar{position:sticky;top:0;z-index:5;background:rgba(233,238,243,.9);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.detail-bar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.back-btn{display:flex;align-items:center;gap:9px;background:none;border:none;cursor:pointer;
+  font-family:'Hanken Grotesk';font-weight:600;font-size:15px;color:var(--ink)}
+.back-btn:hover{color:var(--teal)}
+.detail-content{padding:54px 0 40px}
+.detail-kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:18px}
+.detail-title{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(32px,5vw,52px);
+  line-height:1.02;letter-spacing:-.015em;margin-bottom:20px;max-width:16em}
+.detail-lede{font-size:20px;color:var(--ink-soft);max-width:34em;margin-bottom:34px}
+.detail-links{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:50px}
+.detail-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:30px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:0}
+@media(max-width:680px){.detail-meta{grid-template-columns:1fr 1fr}}
+.dm .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+.dm .v{font-size:15px;color:var(--ink);line-height:1.4}
+.sowhat{background:var(--indigo);color:var(--paper);border-radius:6px;padding:38px 40px;margin:50px 0 10px;position:relative;overflow:hidden}
+.sowhat::after{content:"";position:absolute;inset:0;opacity:.1;pointer-events:none;
+  background:radial-gradient(circle at 85% 30%,var(--teal-bright),transparent 50%)}
+.sowhat .lbl{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--teal-bright);margin-bottom:16px;position:relative}
+.sowhat p{font-family:'Newsreader',serif;font-size:22px;line-height:1.4;font-weight:400;position:relative}
+.sowhat p strong{font-weight:600;color:#fff}
+
+/* SCROLLYTELLING */
+.scrolly{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:30px;align-items:start}
+@media(max-width:860px){.scrolly{grid-template-columns:1fr;gap:0}}
+.scrolly-graphic{position:sticky;top:96px;height:calc(100vh - 130px);display:flex;
+  flex-direction:column;justify-content:center}
+@media(max-width:860px){.scrolly-graphic{display:none}}
+.gfx-frame{border:1px solid var(--line);border-radius:6px;background:#fff;overflow:hidden;
+  box-shadow:0 24px 50px -30px rgba(25,31,58,.45);position:relative;aspect-ratio:1.12/1}
+.gfx-frame img{position:absolute;inset:0;width:100%;height:100%;opacity:0;
+  transition:opacity .55s ease;object-fit:contain;padding:10px}
+.gfx-frame img.show{opacity:1}
+.gfx-cap{font-size:13px;color:var(--ink-soft);margin-top:14px;font-style:italic;
+  border-left:2px solid var(--teal);padding-left:13px;min-height:3em;transition:opacity .4s}
+.scrolly-steps{display:flex;flex-direction:column}
+.step{min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding:30px 0}
+@media(max-width:860px){.step{min-height:auto;padding:34px 0}}
+.step.active .step-card{border-color:var(--teal);transform:translateY(0)}
+.step-card{background:rgba(255,255,255,.5);border:1px solid var(--line);border-left:3px solid var(--line);
+  border-radius:4px;padding:26px 28px;transition:all .4s}
+.step.active .step-card{border-left-color:var(--teal);box-shadow:0 16px 36px -26px rgba(25,31,58,.4)}
+.step-n{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;
+  color:var(--teal);text-transform:uppercase;margin-bottom:10px}
+.step h3{font-family:'Newsreader',serif;font-weight:600;font-size:24px;line-height:1.12;margin-bottom:12px;letter-spacing:-.01em}
+.step p{color:var(--ink-soft)}
+.step p strong{color:var(--ink);font-weight:600}
+/* mobile inline figure */
+.step-mobfig{display:none;margin-top:18px}
+.step-mobfig img{width:100%;border:1px solid var(--line);border-radius:4px;background:#fff}
+.step-mobfig figcaption{font-size:12.5px;color:var(--ink-soft);font-style:italic;margin-top:9px}
+@media(max-width:860px){.step-mobfig{display:block}}
+
+.detail-outro{max-width:42em;margin:30px 0 40px}
+.detail-outro h3{font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:40px 0 14px}
+.detail-outro p{color:var(--ink-soft);margin-bottom:16px}
+.detail-outro p strong{color:var(--ink);font-weight:600}
+
+.detail-foot{max-width:42em;margin:10px 0 90px;padding-top:24px;border-top:1px solid var(--line);
+  font-size:15.5px;color:var(--ink-soft)}
+.detail-foot a{color:var(--indigo);font-weight:600;text-decoration:none;border-bottom:1.5px solid var(--teal)}
+.detail-foot a:hover{color:var(--teal)}
+
+/* simple body (non-scrolly cases) */
+.detail-body{max-width:44em}
+.detail-body h3{font-family:'Newsreader',serif;font-weight:600;font-size:25px;margin:46px 0 16px;letter-spacing:-.01em}
+.detail-body p{margin-bottom:18px;color:var(--ink-soft)}
+.detail-body p strong{color:var(--ink);font-weight:600}
+.detail-body .figure{margin:36px 0 12px}
+.case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:34px 0;
+  padding:30px;background:var(--indigo);border-radius:6px;color:var(--paper)}
+@media(max-width:680px){.case-stats{grid-template-columns:1fr;gap:24px}}
+.case-stats .cn{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(30px,4vw,44px);
+  line-height:1;letter-spacing:-.02em;color:#fff}
+.case-stats .cl{font-size:13.5px;color:rgba(233,238,243,.78);margin-top:9px;line-height:1.4}
+.case-stats .cl strong{color:var(--teal-bright);font-weight:600}
+.figure img{width:100%;border:1px solid var(--line);border-radius:4px;background:#fff;
+  box-shadow:0 18px 40px -28px rgba(25,31,58,.4)}
+.figure figcaption{font-size:13.5px;color:var(--ink-soft);margin-top:12px;font-style:italic;
+  border-left:2px solid var(--teal);padding-left:14px}
+
+/* CONTACT */
+.contact{background:var(--indigo);color:var(--paper);border-radius:8px;padding:64px 56px;
+  display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;position:relative;overflow:hidden}
+.contact::after{content:"";position:absolute;inset:0;opacity:.1;pointer-events:none;
+  background:radial-gradient(circle at 15% 80%,var(--teal-bright),transparent 50%)}
+@media(max-width:760px){.contact{grid-template-columns:1fr;padding:44px 32px}}
+.contact h2{font-family:'Newsreader',serif;font-weight:600;font-size:clamp(28px,4vw,42px);line-height:1.05;margin-bottom:16px;position:relative}
+.contact p{color:rgba(233,238,243,.78);max-width:30em;position:relative}
+.contact-links{display:flex;flex-direction:column;gap:12px;position:relative}
+.clink{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--paper);
+  font-weight:600;font-size:16px;padding:13px 20px;border:1px solid rgba(233,238,243,.25);
+  border-radius:4px;transition:all .2s;white-space:nowrap}
+.clink:hover{background:rgba(233,238,243,.1);border-color:rgba(233,238,243,.5);transform:translateX(4px)}
+
+footer{padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13.5px;color:var(--ink-soft)}
+footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
+
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.in{opacity:1;transform:none}
+/* PUBLICATIONS */
+.pubs{display:flex;flex-direction:column;gap:0}
+.pub{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:start;
+  padding:26px 4px;border-top:1px solid var(--line);transition:background .2s}
+.pub:last-child{border-bottom:1px solid var(--line)}
+.pub:hover{background:rgba(255,255,255,.35)}
+@media(max-width:680px){.pub{grid-template-columns:1fr;gap:12px}}
+.pub-year{font-family:'Newsreader',serif;font-weight:600;font-size:26px;color:var(--indigo);line-height:1}
+.pub-type{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--teal);margin-top:6px}
+.pub-main .pt{font-family:'Newsreader',serif;font-weight:600;font-size:20px;line-height:1.25;
+  letter-spacing:-.01em;margin-bottom:8px}
+.pub-main .pa{font-size:14.5px;color:var(--ink-soft);margin-bottom:8px}
+.pub-main .pa b{color:var(--ink);font-weight:600}
+.pub-main .pv{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal);margin-bottom:10px}
+.pub-main .pd{font-size:14.5px;color:var(--ink-soft);max-width:46em}
+.pub-main .role{display:inline-block;font-size:11.5px;font-family:'JetBrains Mono',monospace;
+  color:var(--ink-soft);border:1px solid var(--line-strong);border-radius:2px;padding:3px 8px;margin-bottom:10px}
+.pub-link{align-self:center}
+.pub-link a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:600;
+  font-size:13.5px;color:var(--indigo);border:1px solid var(--line-strong);border-radius:3px;
+  padding:9px 15px;transition:all .2s;white-space:nowrap}
+.pub-link a:hover{background:var(--indigo);color:var(--paper);border-color:var(--indigo)}
+@media(max-width:680px){.pub-link{justify-self:start}}
+
+/* INTERACTIVE MAP */
+.imap-wrap{margin:56px 0 10px}
+.imap-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:18px}
+.imap-title{font-family:'Newsreader',serif;font-weight:600;font-size:26px;letter-spacing:-.01em}
+.imap-toggle{display:flex;flex-wrap:wrap;gap:7px}
+.imap-btn{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.02em;
+  padding:8px 13px;border:1px solid var(--line-strong);border-radius:3px;background:rgba(255,255,255,.4);
+  color:var(--ink-soft);cursor:pointer;transition:all .18s}
+.imap-btn:hover{border-color:var(--ink);color:var(--ink)}
+.imap-btn.on{background:var(--indigo);border-color:var(--indigo);color:var(--paper)}
+.imap-stage{position:relative;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;
+  box-shadow:0 24px 50px -32px rgba(25,31,58,.45)}
+#bostonMap{height:560px;background:var(--paper-2)}
+@media(max-width:680px){#bostonMap{height:440px}}
+.imap-legend{position:absolute;bottom:16px;right:16px;z-index:500;background:rgba(233,238,243,.94);
+  border:1px solid var(--line);border-radius:5px;padding:13px 15px;font-size:12px;
+  box-shadow:0 8px 20px -10px rgba(25,31,58,.4);max-width:200px}
+.imap-legend .lt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:9px}
+.imap-legend .row{display:flex;align-items:center;gap:8px;margin-bottom:5px;color:var(--ink-soft)}
+.imap-legend .sw{width:15px;height:15px;border-radius:2px;flex-shrink:0;border:1px solid rgba(0,0,0,.12)}
+.imap-hint{font-size:12.5px;color:var(--ink-soft);margin-top:12px;font-style:italic}
+.leaflet-tooltip.btip{background:var(--ink);color:var(--paper);border:none;border-radius:5px;
+  padding:10px 13px;font-family:'Hanken Grotesk';font-size:12.5px;line-height:1.5;box-shadow:0 10px 24px -10px rgba(0,0,0,.5)}
+.leaflet-tooltip.btip strong{font-family:'Newsreader',serif;font-size:14px;color:#fff}
+.leaflet-tooltip.btip .tv{color:var(--teal-bright);font-weight:600}
+.leaflet-tooltip.btip:before{display:none}
+.leaflet-container{font-family:'Hanken Grotesk'}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.fade-up{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Shan <span>Yang</span></div>
+    <div class="navlinks">
+      <a href="#work">Work</a><a href="#publications">Publications</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Urban Analyst · Econometrics · Machine Learning</div>
+      <h1 class="name">Better decisions<br>for <em>cities</em> and regions.</h1>
+      <p class="lede">I'm an urban analyst and PhD researcher working across <strong>transportation, regional economic development, and resilience</strong> — using econometrics, machine learning, and spatial methods to turn data into decisions that hold up.</p>
+      <div class="tags">
+        <span class="tag">Econometrics</span>
+        <span class="tag">Machine learning</span>
+        <span class="tag">Causal inference</span>
+        <span class="tag">Spatial analysis · GIS</span>
+        <span class="tag">Panel data</span>
+      </div>
+      <div class="cta-row">
+        <a href="#work" class="btn btn-primary">View case studies →</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 400" preserveAspectRatio="none">
+        <g>
+          <path class="gridline" style="animation-delay:.1s" d="M0,300 Q120,250 240,290 T400,250"/>
+          <path class="gridline" style="animation-delay:.3s" d="M0,220 Q140,180 250,230 T400,200"/>
+          <path class="gridline" style="animation-delay:.5s" d="M0,140 Q110,110 230,160 T400,130"/>
+        </g>
+        <g stroke="rgba(38,52,92,.12)" stroke-width="1">
+          <line class="gridline" style="animation-delay:.5s" x1="60" y1="40" x2="60" y2="360"/>
+          <line class="gridline" style="animation-delay:.6s" x1="160" y1="40" x2="160" y2="360"/>
+          <line class="gridline" style="animation-delay:.7s" x1="260" y1="40" x2="260" y2="360"/>
+          <line class="gridline" style="animation-delay:.8s" x1="360" y1="40" x2="360" y2="360"/>
+        </g>
+        <g fill="#2aa39a">
+          <circle class="pt pulse" cx="90" cy="300" style="animation-delay:0s"/>
+          <circle class="pt pulse" cx="150" cy="250" style="animation-delay:.3s"/>
+          <circle class="pt pulse" cx="200" cy="215" style="animation-delay:.6s"/>
+          <circle class="pt pulse" cx="250" cy="180" style="animation-delay:.9s"/>
+          <circle class="pt pulse" cx="300" cy="150" style="animation-delay:1.2s"/>
+          <circle class="pt pulse" cx="120" cy="190" style="animation-delay:.5s"/>
+          <circle class="pt pulse" cx="330" cy="240" style="animation-delay:.8s"/>
+        </g>
+        <g>
+          <circle class="hot" cx="230" cy="120" r="5" fill="#b5532a"/>
+          <circle class="ring" cx="230" cy="120"/>
+        </g>
+        <path d="M70,310 Q150,250 230,200 T360,120" fill="none" stroke="rgba(38,52,92,.35)"
+          stroke-width="2" stroke-dasharray="500" stroke-dashoffset="500" style="animation:draw 2.4s ease .8s forwards"/>
+      </svg>
+      <div class="label">Spatial · econometric · machine-learning models</div>
+    </div>
+  </div>
+</header>
+
+<!-- WORK -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Selected work</h2></div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Publications & reports</h2></div>
+    <div class="pubs" id="pubs"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">About</h2></div>
+    <div class="about-grid">
+      <div>
+        <p>I'm an <strong>urban analyst and PhD researcher</strong>. I build rigorous, interpretable models of how cities, economies, and transportation systems behave — combining econometrics, causal inference, machine learning, and spatial analysis.</p>
+        <p>My published work spans <strong>transportation, regional economic development and resilience, and equity</strong>, appearing in journals including <em>Economic Development Quarterly</em>, <em>Sustainability</em>, and <em>Computers, Environment and Urban Systems</em>.</p>
+        <p>I care about analysis that ends in a decision. Every project here moves from raw data to a clear, defensible recommendation a planning agency or consultancy could act on.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="k">Focus</div><div class="v">Transportation · economic development & resilience · equity</div></div>
+        <div class="fact"><div class="k">Methods</div><div class="v">Econometrics · causal inference · machine learning · spatial analysis · panel data</div></div>
+        <div class="fact"><div class="k">Tools</div><div class="v">R · Python · ArcGIS Pro & Online · SQL</div></div>
+        <div class="fact"><div class="k">Data</div><div class="v">Census & survey · administrative & business records · geospatial · public & proprietary sources</div></div>
+        <div class="fact"><div class="k">Education</div><div class="v">PhD, City & Regional Planning <em>(Ohio State, 2025)</em> · Master of Urban & Regional Planning, GIS and transportation <em>(University of Florida)</em></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <div>
+        <h2>Let's turn data into decisions.</h2>
+        <p>Open to roles and collaborations across transportation, regional economic development, applied research, and geospatial data science. Reach out — I'm happy to share code, data, or a walk-through of any project here.</p>
+      </div>
+      <div class="contact-links">
+        <a class="clink" href="mailto:shanyangufl@gmail.com">✉  shanyangufl@gmail.com</a>
+        <a class="clink" href="https://github.com/shanyang5" target="_blank">⌥  GitHub</a>
+        <a class="clink" href="https://www.linkedin.com/in/shan-yang-phd-b1573313b/" target="_blank">in  LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="yr"></span> Shan Yang · Turning data into decisions</div>
+    <div class="mono">R · Python · ArcGIS Pro & Online · SQL</div>
+  </div>
+</footer>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail" id="detail">
+  <div class="progress" id="progress"></div>
+  <div class="detail-bar">
+    <div class="wrap">
+      <button class="back-btn" onclick="closeCase()">←  All work</button>
+      <div class="brand">Shan <span>Yang</span></div>
+    </div>
+  </div>
+  <div class="wrap detail-content" id="detailContent"></div>
+</div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="boston_data.js"></script>
+<script>
+/* ============================================================
+   CASES — edit / add projects here.
+   Two formats:
+     • scrolly: [...]  → scroll-driven story (sticky figure + steps)
+     • body:    [...]  → simple stacked sections (template at bottom)
+   ============================================================ */
+const CASES = [
+  {
+    id:"boston",
+    kicker:"Transportation Safety · Equity",
+    title:"Crash Risk, Transit Accessibility & Equity in Boston",
+    sub:"Where does serious crash burden overlap with weak transit and low income? A tract-level equity screen across the City of Boston.",
+    thumb:"images/accessibility_2sfca.png",
+    badge:"Scroll story",
+    minitags:["2SFCA","KDE","ACS / GTFS","R · sf"],
+    meta:{
+      "Scope":"196 census tracts, City of Boston",
+      "Data":"MassDOT IMPACT, ACS 2023, MBTA GTFS, LODES",
+      "Methods":"2SFCA accessibility · KDE · equity overlay",
+      "Stack":"R (tidyverse, sf, SpatialAcc, spatstat)"
+    },
+    sowhat:"Just <strong>two tracts in Roxbury</strong> carry high crash burden, weak transit, AND low income at the same time — a precise, defensible starting point for early-action Vision Zero investment, rather than a citywide program spread thin.",
+    interactive:true,
+    // Each step swaps the sticky figure on the left as you scroll.
+    scrolly:[
+      {fig:"images/crashes_by_year.png",cap:"Crash trends 2018–2023. A ~27% drop in 2020, then a rebound to study-period highs by 2022–23.",
+       n:"01 · The question",h:"Not just where crashes happen — who they happen to",
+       p:"Boston recorded <strong>24,068 crashes</strong> from 2018–2023, including 549 killed-or-seriously-injured and 714 involving pedestrians. The real question is where crash risk lands on communities that also have the fewest transport alternatives. This screens all 196 city tracts for that overlap."},
+      {fig:"images/ksi_kde_map.png",cap:"Kernel density (400m) of serious-injury crashes — concentrated along Washington Street and the Route 28 corridor.",
+       n:"02 · Crash burden",h:"Serious crashes are corridor-shaped, not citywide",
+       p:"Mapping KSI crash density reveals a clear spine running from downtown through the South End and lower Roxbury. <strong>That shape matters</strong>: it means corridor-level intervention, not a thinly-spread citywide program, is the efficient lever."},
+      {fig:"images/accessibility_2sfca.png",cap:"2SFCA accessibility proxy. Darker = stronger transit service per resident. Red dots = MBTA stops.",
+       n:"03 · Transit access",h:"Measuring who the network actually serves",
+       p:"I built a transit accessibility surface using the <strong>Two-Step Floating Catchment Area (2SFCA)</strong> method — a 1,200m catchment with MBTA AM-peak frequency as supply and tract population as demand. The rapid-transit core scores high; outer neighborhoods fall away."},
+      {fig:"images/access_income_scatter.png",cap:"Accessibility vs. median income. The lower-left quadrant isolates Low-Access + Low-Income tracts.",
+       n:"04 · The equity overlay",h:"13 tracts are both underserved and low-income",
+       p:"Crossing access against income surfaces <strong>13 tracts that are both low-access and low-income</strong> — roughly 52,000 residents, majority people of color. These are service gaps worth naming even before crash risk enters the picture."},
+      {fig:"images/priority_quadrant.png",cap:"High-crash / low-access quadrant holds 18 tracts — but only two clear all three equity filters.",
+       n:"05 · Three filters",h:"From 196 tracts down to two",
+       p:"Applying three filters at once — KSI ≥ 75th pct, 2SFCA ≤ 35th pct, income < 80% of the citywide tract median — collapses the map to <strong>two Roxbury tracts</strong>. Tract 813.02 is the most extreme: $29,962 median income, 95% people of color, a KSI rate nearly triple the median."}
+    ],
+    outro:[
+      {h:"Honest limits"},
+      {p:"The accessibility measure is a Euclidean service proxy, not a routed travel-time model; the five data sources span different reference years; and the low-income benchmark is an internal heuristic, not official HUD AMI. None of these undermine the central finding — that disadvantage stacks in a small, identifiable set of places — but each is a documented refinement path (a network-based r5r version is the natural next step)."}
+    ]
+  },
+
+  {
+    id:"regional-resilience",
+    kicker:"Regional Economics · Spatial Panel · Machine Learning",
+    title:"When a Common Shock Strengthens Spatial Co-Movement",
+    sub:"Did COVID-19 erase or amplify the spatial structure of regional economies? A spatial-panel and machine-learning study of business establishment exits across 364 U.S. metros.",
+    thumb:"images/rs_shap_importance.png",
+    badge:"Working paper",
+    minitags:["Spatial panel","Two-way FE","XGBoost · spatial CV","364 MSAs"],
+    meta:{
+      "Scope":"364 U.S. metros · 2015–2022 · 1,456 metro-years",
+      "Data":"Census BDS, ACS, NYT COVID, SBA PPP, FEMA NRI",
+      "Methods":"Spatially augmented two-way FE panel + XGBoost (spatial-block CV)",
+      "Stack":"R (panel models, spatial weights, XGBoost/SHAP)"
+    },
+    links:[],
+    sowhat:"For business closures during a national shock, <strong>where a metro sat mattered more than how diversified its industries were</strong>. The common shock amplified spatial co-movement rather than washing it out — and broad industrial diversification offered no detectable protection, challenging the standard \"diversification as insurance\" intuition.",
+    body:[
+      {h:"The question"},
+      {p:"A common national shock might be expected to push every regional economy the same way and flatten the role of spatial structure. COVID-19 was a chance to test that. I measure resilience through <strong>establishment exit rates</strong> (firm closures) rather than employment, because pandemic-era payroll programs (PPP, expanded unemployment) badly distorted the usual employment-based indicators."},
+      {stats:[
+        {n:"364",lab:"U.S. metro areas, <strong>2015–2022</strong>"},
+        {n:"ρ ≈ 0.72",lab:"spatial-lag coefficient — <strong>strong cross-metro co-movement</strong>"},
+        {n:"~0",lab:"detectable protective effect from <strong>industrial diversification</strong>"}
+      ]},
+      {h:"What I did"},
+      {p:"I estimated <strong>spatially augmented two-way fixed-effects panel models</strong> (k-nearest-neighbour spatial weights, Driscoll-Kraay and clustered standard errors) across 364 metros, then complemented them with an <strong>XGBoost model under spatial-block cross-validation</strong> as a cross-method check — testing whether a flexible algorithm without the linearity or fixed-effects assumptions tells the same story."},
+      {h:"What I found"},
+      {p:"Establishment exits showed strong contemporaneous spatial co-movement that <strong>intensified during the pandemic</strong> — neighbouring metros moved together more, not less, under the common shock. Broad industrial diversification was statistically indistinguishable from zero. Pre-pandemic sectoral exposure mattered only selectively (retail trade showed the clearest signal)."},
+      {fig:"images/rs_shap_importance.png",cap:"XGBoost feature importance (mean |SHAP|) triangulates the parametric story: manufacturing exposure, demographics, metro size, and the spatial lag of COVID severity rank highest."},
+      {p:"The machine-learning results echo the parametric models rather than contradicting them — a useful cross-method check that the spatial-structure finding isn't an artifact of one modelling choice."},
+      {h:"Status & limits"},
+      {p:"This is a working paper (manuscript under review); the findings are descriptive rather than causal. It's included here as a worked analysis demonstrating spatial-panel econometrics and interpretable machine learning on a national MSA panel."}
+    ]
+  }
+
+  /* ---------- TEMPLATE: simple stacked case (copy & edit) ----------
+  ,{
+    id:"my-new-case",
+    kicker:"Topic · Topic",
+    title:"Project title",
+    sub:"One-line hook for the card.",
+    thumb:"images/your_thumb.png",
+    minitags:["Method","Tool"],
+    meta:{"Scope":"...","Data":"...","Methods":"...","Stack":"..."},
+    links:[{label:"View report",href:"#",primary:true},{label:"Code",href:"#"}],
+    sowhat:"The single decision-relevant takeaway. Make it concrete.",
+    body:[
+      {h:"Section heading"},
+      {p:"A paragraph. Use <strong>bold</strong> for emphasis."},
+      {fig:"images/your_figure.png",cap:"Caption."}
+    ]
+  }
+  ------------------------------------------------------------------ */
+];
+
+/* ============================================================
+   PUBLICATIONS — add a new one by copying a { } block.
+   For journal articles: link to the official DOI (don't host
+   the publisher's PDF). For reports you're allowed to share,
+   you can link to the hosting page or a PDF in this folder.
+   ============================================================ */
+const PUBS=[
+  {
+    year:"2025",type:"Journal article",
+    title:"How Much Were Minority Neighborhoods Affected During COVID-19 in Business Closure Rates? Evidence From Six Metropolitan Areas",
+    authors:"<b>Shan Yang</b> & Yasuyuki Motoyama",
+    venue:"Economic Development Quarterly · 2025",
+    role:"First author",
+    desc:"Spatial analysis of business-closure rates in minority neighborhoods across six U.S. metros during COVID-19, using individual business data (SafeGraph) aggregated to the neighborhood scale.",
+    link:{label:"DOI ↗",href:"https://doi.org/10.1177/08912424251374678"}
+  },
+  {
+    year:"2025",type:"Research report",
+    title:"A Positive Evolution: Exploring the Impact of the MBK Village Initiative",
+    authors:"Kirwan Institute MBK Village Report Team · incl. <b>Shan Yang</b>",
+    venue:"Kirwan Institute for the Study of Race & Ethnicity, Ohio State University · 2025",
+    role:"Report team",
+    desc:"Post-pandemic youth-equity report on Columbus, including a neighborhood-scale Youth Equity Index and spatial analysis of youth outcomes across the six milestone areas.",
+    link:{label:"View report ↗",href:"https://www.columbus.gov/files/sharedassets/city/v/1/neighborhood/mbk/mbk-columbus-a-positive-evolution-exploring-the-impact-of-the-mbk-villiage-initiative-2025.pdf"}
+  },
+  {
+    year:"2022",type:"Journal article",
+    title:"The Impact of COVID-19 on High-Speed Rail and Aviation Operations",
+    authors:"<b>Shan Yang</b> & Zhenhua Chen",
+    venue:"Sustainability · vol. 14, 1683 · 2022",
+    role:"First author",
+    desc:"Supply-side analysis of how COVID-19 disrupted high-speed rail and domestic aviation scheduling and frequency, using transportation performance big data to assess modal substitution and resilience.",
+    link:{label:"DOI ↗",href:"https://doi.org/10.3390/su14031683"}
+  },
+  {
+    year:"2020",type:"Journal article",
+    title:"Impact of extreme weather events on urban human flow: A perspective from location-based service data",
+    authors:"Zhenhua Chen, Zhaoya Gong, <b>Shan Yang</b>, Qiwei Ma & Changcheng Kan",
+    venue:"Computers, Environment and Urban Systems · vol. 83 · 2020",
+    role:"Co-author",
+    desc:"Used location-based service data (Baidu Map) and AMOEBA spatial clustering to measure how extreme weather events disrupt urban human flow.",
+    link:{label:"DOI ↗",href:"https://doi.org/10.1016/j.compenvurbsys.2020.101520"}
+  }
+];
+const pubsEl=document.getElementById('pubs');
+if(pubsEl){
+  pubsEl.innerHTML=PUBS.map(p=>`
+    <div class="pub">
+      <div><div class="pub-year">${p.year}</div><div class="pub-type">${p.type}</div></div>
+      <div class="pub-main">
+        <div class="pt">${p.title}</div>
+        <div class="pa">${p.authors}</div>
+        <div class="pv">${p.venue}</div>
+        ${p.role?`<span class="role">${p.role}</span>`:''}
+        <div class="pd">${p.desc}</div>
+      </div>
+      <div class="pub-link"><a href="${p.link.href}" target="_blank">${p.link.label}</a></div>
+    </div>`).join('');
+}
+
+/* ---------- render cards ---------- */
+const cardsEl=document.getElementById('cards');
+CASES.forEach(c=>{
+  const a=document.createElement('a');
+  a.className='card';a.href='#';
+  a.onclick=e=>{e.preventDefault();openCase(c.id);};
+  a.innerHTML=`
+    <div class="card-thumb">${c.badge?`<span class="badge">${c.badge}</span>`:''}<img src="${c.thumb}" alt="${c.title}"></div>
+    <div class="card-body">
+      <div class="card-kicker">${c.kicker}</div>
+      <div class="card-title">${c.title}</div>
+      <div class="card-sub">${c.sub}</div>
+      <div class="card-meta">${c.minitags.map(t=>`<span class="minitag">${t}</span>`).join('')}</div>
+      <div class="card-arrow">Read the case <span>→</span></div>
+    </div>`;
+  cardsEl.appendChild(a);
+});
+
+const detailEl=document.getElementById('detail');
+const progressEl=document.getElementById('progress');
+let stepObserver=null;
+
+function openCase(id){
+  const c=CASES.find(x=>x.id===id);if(!c)return;
+  const linkHtml=(c.links&&c.links.length)?`<div class="detail-links">${c.links.map(l=>`<a class="btn ${l.primary?'btn-primary':'btn-ghost'}" href="${l.href}" target="_blank">${l.label}</a>`).join('')}</div>`:'';
+  const metaHtml=Object.entries(c.meta).map(([k,v])=>`<div class="dm"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+
+  let mainHtml='';
+  if(c.scrolly){
+    const imgs=c.scrolly.map((s,i)=>`<img src="${s.fig}" data-i="${i}" class="${i===0?'show':''}" alt="">`).join('');
+    const steps=c.scrolly.map((s,i)=>`
+      <div class="step" data-i="${i}" data-cap="${s.cap.replace(/"/g,'&quot;')}">
+        <div class="step-card">
+          <div class="step-n">${s.n}</div>
+          <h3>${s.h}</h3>
+          <p>${s.p}</p>
+          <figure class="step-mobfig"><img src="${s.fig}" alt=""><figcaption>${s.cap}</figcaption></figure>
+        </div>
+      </div>`).join('');
+    mainHtml=`
+      <div class="scrolly">
+        <div class="scrolly-graphic">
+          <div class="gfx-frame">${imgs}</div>
+          <div class="gfx-cap" id="gfxCap">${c.scrolly[0].cap}</div>
+        </div>
+        <div class="scrolly-steps">${steps}</div>
+      </div>`;
+  } else if(c.body){
+    mainHtml=`<div class="detail-body">${c.body.map(b=>{
+      if(b.h)return `<h3>${b.h}</h3>`;
+      if(b.p)return `<p>${b.p}</p>`;
+      if(b.stats)return `<div class="case-stats">${b.stats.map(s=>`<div><div class="cn">${s.n}</div><div class="cl">${s.lab}</div></div>`).join('')}</div>`;
+      if(b.fig)return `<figure class="figure"><img src="${b.fig}" alt=""><figcaption>${b.cap||''}</figcaption></figure>`;
+      return '';}).join('')}</div>`;
+  }
+  const outroHtml=c.outro?`<div class="detail-outro">${c.outro.map(b=>b.h?`<h3>${b.h}</h3>`:`<p>${b.p}</p>`).join('')}</div>`:'';
+
+  const mapHtml=c.interactive?`
+    <div class="imap-wrap">
+      <div class="imap-head">
+        <div class="imap-title">Explore all 196 tracts</div>
+        <div class="imap-toggle" id="imapToggle"></div>
+      </div>
+      <div class="imap-stage">
+        <div id="bostonMap"></div>
+        <div class="imap-legend" id="imapLegend"></div>
+      </div>
+      <div class="imap-hint">Hover any tract for its numbers · drag to pan · use + / − to zoom. Built in Leaflet from the same data behind the maps above.</div>
+    </div>`:'';
+
+  document.getElementById('detailContent').innerHTML=`
+    <div class="detail-kicker">${c.kicker}</div>
+    <h1 class="detail-title">${c.title}</h1>
+    <p class="detail-lede">${c.sub}</p>
+    ${linkHtml}
+    <div class="detail-meta">${metaHtml}</div>
+    <div class="sowhat"><div class="lbl">Bottom line</div><p>${c.sowhat}</p></div>
+    ${mainHtml}
+    ${mapHtml}
+    ${outroHtml}
+    <div class="detail-foot">Interested in the full paper, data, or code? <a href="mailto:shanyangufl@gmail.com">Get in touch</a> — happy to share.</div>`;
+
+  detailEl.classList.add('open');detailEl.scrollTop=0;document.body.style.overflow='hidden';
+  if(c.interactive&&window.BOSTON_TRACTS&&window.L){setTimeout(initBostonMap,80);}
+
+  if(stepObserver)stepObserver.disconnect();
+  if(c.scrolly){
+    const frame=document.querySelector('.gfx-frame');
+    const cap=document.getElementById('gfxCap');
+    stepObserver=new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(e.isIntersecting){
+          const i=e.target.dataset.i;
+          document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active',s===e.target));
+          frame.querySelectorAll('img').forEach(im=>im.classList.toggle('show',im.dataset.i===i));
+          cap.style.opacity=0;
+          setTimeout(()=>{cap.textContent=e.target.dataset.cap;cap.style.opacity=1;},200);
+        }
+      });
+    },{root:detailEl,rootMargin:"-45% 0px -45% 0px",threshold:0});
+    document.querySelectorAll('.step').forEach(s=>stepObserver.observe(s));
+  }
+}
+function closeCase(){detailEl.classList.remove('open');document.body.style.overflow='';progressEl.style.width='0';if(_bmap){_bmap.remove();_bmap=null;}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCase();});
+detailEl.addEventListener('scroll',()=>{
+  const h=detailEl.scrollHeight-detailEl.clientHeight;
+  progressEl.style.width=(h>0?detailEl.scrollTop/h*100:0)+'%';
+});
+
+/* ---------- interactive Boston choropleth ---------- */
+let _bmap=null,_bgeo=null;
+const NULLC='#cbc3b2';
+const MAP_METRICS={
+  priority:{label:'Priority overlay',type:'cat',
+    cats:[
+      ['Baseline','#d2dae4','Baseline'],
+      ['High KSI Only','#e6b894','High KSI only'],
+      ['High KSI + Low Access (not low income)','#cf7048','High KSI + low access'],
+      ['Low Access + Low Income','#6478a8','Low access + low income'],
+      ['Priority: High KSI + Low Access + Low Income','#9e2b16','All three (priority)']
+    ]},
+  sfca:{label:'Transit access',type:'seq',unit:'2SFCA',
+    breaks:[0.074,0.091,0.106,0.124,0.162],
+    colors:['#e6ecf3','#cfe0d8','#9fcabf','#5aa79b','#2f7d77','#26345c'],
+    legend:['low','','','','','high']},
+  ksi_rate:{label:'KSI crash rate',type:'seq',unit:'per 10k',
+    breaks:[1,2,3,4,6],
+    colors:['#e8edf3','#f0cdb0','#e3a07a','#cf7048','#b5532a','#7d3318'],
+    legend:['0','','','','','6+']},
+  pct_poc:{label:'% people of color',type:'seq',unit:'share',
+    breaks:[.2,.4,.6,.8],
+    colors:['#e6ecf3','#c9cfdd','#9aa6c4','#6478a8','#26345c'],
+    legend:['0%','','','','100%']}
+};
+let _activeMetric='priority';
+
+function colorFor(props,key){
+  const m=MAP_METRICS[key];const v=props[key];
+  if(m.type==='cat'){const hit=m.cats.find(c=>c[0]===v);return hit?hit[1]:NULLC;}
+  if(v==null)return NULLC;
+  for(let i=0;i<m.breaks.length;i++){if(v<m.breaks[i])return m.colors[i];}
+  return m.colors[m.colors.length-1];
+}
+function tipHtml(p){
+  const name=p.NAME.replace('; Suffolk County; Massachusetts','').replace('Census ','');
+  const inc=p.medinc!=null?'$'+Math.round(p.medinc).toLocaleString('en-US'):'—';
+  const ksi=p.ksi_rate!=null?p.ksi_rate.toFixed(1):'—';
+  const sfca=p.sfca!=null?p.sfca.toFixed(3):'—';
+  return `<strong>${name}</strong><br>
+    Transit (2SFCA): <span class="tv">${sfca}</span><br>
+    KSI / 10k: <span class="tv">${ksi}</span><br>
+    Median income: <span class="tv">${inc}</span><br>
+    People of color: <span class="tv">${Math.round(p.pct_poc*100)}%</span>`;
+}
+function styleFor(f){return{fillColor:colorFor(f.properties,_activeMetric),fillOpacity:.82,
+  color:'#fff',weight:.7,opacity:1};}
+function buildLegend(){
+  const m=MAP_METRICS[_activeMetric];const el=document.getElementById('imapLegend');if(!el)return;
+  let rows='';
+  if(m.type==='cat'){rows=m.cats.map(c=>`<div class="row"><span class="sw" style="background:${c[1]}"></span>${c[2]}</div>`).join('');}
+  else{rows=m.colors.map((col,i)=>`<div class="row"><span class="sw" style="background:${col}"></span>${m.legend[i]||''}</div>`).join('');}
+  el.innerHTML=`<div class="lt">${m.label}${m.unit?' ('+m.unit+')':''}</div>${rows}`;
+}
+function buildToggle(){
+  const el=document.getElementById('imapToggle');if(!el)return;
+  el.innerHTML=Object.entries(MAP_METRICS).map(([k,m])=>
+    `<button class="imap-btn ${k===_activeMetric?'on':''}" data-k="${k}">${m.label}</button>`).join('');
+  el.querySelectorAll('.imap-btn').forEach(b=>b.onclick=()=>{
+    _activeMetric=b.dataset.k;
+    el.querySelectorAll('.imap-btn').forEach(x=>x.classList.toggle('on',x===b));
+    if(_bgeo)_bgeo.setStyle(styleFor);
+    buildLegend();
+  });
+}
+function initBostonMap(){
+  const node=document.getElementById('bostonMap');if(!node)return;
+  if(_bmap){_bmap.remove();_bmap=null;}
+  _activeMetric='priority';
+  _bmap=L.map(node,{zoomControl:true,scrollWheelZoom:false,attributionControl:false});
+  _bgeo=L.geoJSON(window.BOSTON_TRACTS,{
+    style:styleFor,
+    onEachFeature:(f,layer)=>{
+      layer.bindTooltip(tipHtml(f.properties),{sticky:true,className:'btip',direction:'top'});
+      layer.on('mouseover',()=>layer.setStyle({weight:2.4,color:'#1b2230'}));
+      layer.on('mouseout',()=>_bgeo.resetStyle(layer));
+    }
+  }).addTo(_bmap);
+  _bmap.fitBounds(_bgeo.getBounds(),{padding:[18,18]});
+  buildToggle();buildLegend();
+  setTimeout(()=>_bmap.invalidateSize(),120);
+}
+
+/* ---------- misc ---------- */
+document.getElementById('yr').textContent=new Date().getFullYear();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.12});
+document.querySelectorAll('section .sec-head, .about-grid, .card, .contact').forEach(el=>{el.classList.add('fade-up');io.observe(el)});
+</script>
+</body>
+</html>
