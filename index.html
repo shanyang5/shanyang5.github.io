@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shan Yang — Spatial Analysis & Transportation Research</title>
+<title>Shan Yang · Urban Analyst</title>
 
 <!--
 ====================================================================
@@ -357,15 +357,15 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow">Urban Analyst · Econometrics · Machine Learning</div>
+      <div class="eyebrow">Urban Analyst · Community, Housing & Resilience</div>
       <h1 class="name">Better decisions<br>for <em>cities</em> and regions.</h1>
-      <p class="lede">I'm an urban analyst and PhD researcher working across <strong>transportation, regional economic development, and resilience</strong> — using econometrics, machine learning, and spatial methods to turn data into decisions that hold up.</p>
+      <p class="lede">I'm an urban analyst and PhD researcher studying how transportation, housing, and neighborhoods shape <strong>equity and resilience</strong> across cities and regions. I combine econometrics, machine learning, and spatial analysis with a public-facing, policy-oriented approach, turning data into decisions that hold up.</p>
       <div class="tags">
-        <span class="tag">Econometrics</span>
-        <span class="tag">Machine learning</span>
-        <span class="tag">Causal inference</span>
-        <span class="tag">Spatial analysis · GIS</span>
-        <span class="tag">Panel data</span>
+        <span class="tag">Spatial econometrics</span>
+        <span class="tag">Causal inference & event study</span>
+        <span class="tag">Economic development & resilience</span>
+        <span class="tag">Housing & neighborhoods</span>
+        <span class="tag">Transportation</span>
       </div>
       <div class="cta-row">
         <a href="#work" class="btn btn-primary">View case studies →</a>
@@ -432,12 +432,12 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
     <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">About</h2></div>
     <div class="about-grid">
       <div>
-        <p>I'm an <strong>urban analyst and PhD researcher</strong>. I build rigorous, interpretable models of how cities, economies, and transportation systems behave — combining econometrics, causal inference, machine learning, and spatial analysis.</p>
+        <p>I'm an <strong>urban analyst and PhD researcher</strong>. I work on how transportation, housing, neighborhoods, and regional economies change, and what that means for equity and resilience, using econometrics, machine learning, and spatial analysis. I care about work that reaches beyond the journal: public-facing, policy-oriented, and collaborative across disciplines.</p>
         <p>My published work spans <strong>transportation, regional economic development and resilience, and equity</strong>, appearing in journals including <em>Economic Development Quarterly</em>, <em>Sustainability</em>, and <em>Computers, Environment and Urban Systems</em>.</p>
-        <p>I care about analysis that ends in a decision. Every project here moves from raw data to a clear, defensible recommendation a planning agency or consultancy could act on.</p>
+        <p>Every project here moves from raw data to a clear, defensible recommendation a planning agency, research center, or consultancy could act on.</p>
       </div>
       <div class="facts">
-        <div class="fact"><div class="k">Focus</div><div class="v">Transportation · economic development & resilience · equity</div></div>
+        <div class="fact"><div class="k">Focus</div><div class="v">Economic development & resilience · housing & neighborhoods · transportation · equity</div></div>
         <div class="fact"><div class="k">Methods</div><div class="v">Econometrics · causal inference · machine learning · spatial analysis · panel data</div></div>
         <div class="fact"><div class="k">Tools</div><div class="v">R · Python · ArcGIS Pro & Online · SQL</div></div>
         <div class="fact"><div class="k">Data</div><div class="v">Census & survey · administrative & business records · geospatial · public & proprietary sources</div></div>
@@ -455,7 +455,7 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
     <div class="contact">
       <div>
         <h2>Let's turn data into decisions.</h2>
-        <p>Open to roles and collaborations across transportation, regional economic development, applied research, and geospatial data science. Reach out — I'm happy to share code, data, or a walk-through of any project here.</p>
+        <p>Open to roles and collaborations across community and economic development, transportation, housing and neighborhoods, and applied policy research. Reach out, I'm happy to share code, data, or a walk-through of any project here.</p>
       </div>
       <div class="contact-links">
         <a class="clink" href="mailto:shanyangufl@gmail.com">✉  shanyangufl@gmail.com</a>
@@ -489,7 +489,7 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 <script src="boston_data.js"></script>
 <script>
 /* ============================================================
-   CASES — edit / add projects here.
+   CASES, edit / add projects here.
    Two formats:
      • scrolly: [...]  → scroll-driven story (sticky figure + steps)
      • body:    [...]  → simple stacked sections (template at bottom)
@@ -561,29 +561,29 @@ const CASES = [
       "Methods":"2SFCA accessibility · KDE · equity overlay",
       "Stack":"R (tidyverse, sf, SpatialAcc, spatstat)"
     },
-    sowhat:"Just <strong>two tracts in Roxbury</strong> carry high crash burden, weak transit, AND low income at the same time — a precise, defensible starting point for early-action Vision Zero investment, rather than a citywide program spread thin.",
+    sowhat:"Just <strong>two tracts in Roxbury</strong> carry high crash burden, weak transit, AND low income at the same time, a precise, defensible starting point for early-action Vision Zero investment, rather than a citywide program spread thin.",
     interactive:true,
     // Each step swaps the sticky figure on the left as you scroll.
     scrolly:[
       {fig:"images/crashes_by_year.png",cap:"Crash trends 2018–2023. A ~27% drop in 2020, then a rebound to study-period highs by 2022–23.",
-       n:"01 · The question",h:"Not just where crashes happen — who they happen to",
+       n:"01 · The question",h:"Not just where crashes happen, who they happen to",
        p:"Boston recorded <strong>24,068 crashes</strong> from 2018–2023, including 549 killed-or-seriously-injured and 714 involving pedestrians. The real question is where crash risk lands on communities that also have the fewest transport alternatives. This screens all 196 city tracts for that overlap."},
-      {fig:"images/ksi_kde_map.png",cap:"Kernel density (400m) of serious-injury crashes — concentrated along Washington Street and the Route 28 corridor.",
+      {fig:"images/ksi_kde_map.png",cap:"Kernel density (400m) of serious-injury crashes, concentrated along Washington Street and the Route 28 corridor.",
        n:"02 · Crash burden",h:"Serious crashes are corridor-shaped, not citywide",
        p:"Mapping KSI crash density reveals a clear spine running from downtown through the South End and lower Roxbury. <strong>That shape matters</strong>: it means corridor-level intervention, not a thinly-spread citywide program, is the efficient lever."},
       {fig:"images/accessibility_2sfca.png",cap:"2SFCA accessibility proxy. Darker = stronger transit service per resident. Red dots = MBTA stops.",
        n:"03 · Transit access",h:"Measuring who the network actually serves",
-       p:"I built a transit accessibility surface using the <strong>Two-Step Floating Catchment Area (2SFCA)</strong> method — a 1,200m catchment with MBTA AM-peak frequency as supply and tract population as demand. The rapid-transit core scores high; outer neighborhoods fall away."},
+       p:"I built a transit accessibility surface using the <strong>Two-Step Floating Catchment Area (2SFCA)</strong> method, a 1,200m catchment with MBTA AM-peak frequency as supply and tract population as demand. The rapid-transit core scores high; outer neighborhoods fall away."},
       {fig:"images/access_income_scatter.png",cap:"Accessibility vs. median income. The lower-left quadrant isolates Low-Access + Low-Income tracts.",
        n:"04 · The equity overlay",h:"13 tracts are both underserved and low-income",
-       p:"Crossing access against income surfaces <strong>13 tracts that are both low-access and low-income</strong> — roughly 52,000 residents, majority people of color. These are service gaps worth naming even before crash risk enters the picture."},
-      {fig:"images/priority_quadrant.png",cap:"High-crash / low-access quadrant holds 18 tracts — but only two clear all three equity filters.",
+       p:"Crossing access against income surfaces <strong>13 tracts that are both low-access and low-income</strong>, roughly 52,000 residents, majority people of color. These are service gaps worth naming even before crash risk enters the picture."},
+      {fig:"images/priority_quadrant.png",cap:"High-crash / low-access quadrant holds 18 tracts, but only two clear all three equity filters.",
        n:"05 · Three filters",h:"From 196 tracts down to two",
-       p:"Applying three filters at once — KSI ≥ 75th pct, 2SFCA ≤ 35th pct, income < 80% of the citywide tract median — collapses the map to <strong>two Roxbury tracts</strong>. Tract 813.02 is the most extreme: $29,962 median income, 95% people of color, a KSI rate nearly triple the median."}
+       p:"Applying three filters at once, KSI ≥ 75th pct, 2SFCA ≤ 35th pct, income < 80% of the citywide tract median, collapses the map to <strong>two Roxbury tracts</strong>. Tract 813.02 is the most extreme: $29,962 median income, 95% people of color, a KSI rate nearly triple the median."}
     ],
     outro:[
       {h:"Limitations"},
-      {p:"The accessibility measure is a Euclidean service proxy, not a routed travel-time model; the five data sources span different reference years; and the low-income benchmark is an internal heuristic, not official HUD AMI. None of these undermine the central finding — that disadvantage stacks in a small, identifiable set of places — but each is a documented refinement path (a network-based r5r version is the natural next step)."}
+      {p:"The accessibility measure is a Euclidean service proxy, not a routed travel-time model; the five data sources span different reference years; and the low-income benchmark is an internal heuristic, not official HUD AMI. None of these undermine the central finding, that disadvantage stacks in a small, identifiable set of places, but each is a documented refinement path (a network-based r5r version is the natural next step)."}
     ]
   },
 
@@ -603,21 +603,21 @@ const CASES = [
       "Stack":"R (panel models, spatial weights, XGBoost/SHAP)"
     },
     links:[],
-    sowhat:"For business closures during a national shock, <strong>where a metro sat mattered more than how diversified its industries were</strong>. The common shock amplified spatial co-movement rather than washing it out — and broad industrial diversification offered no detectable protection, challenging the standard \"diversification as insurance\" intuition.",
+    sowhat:"For business closures during a national shock, <strong>where a metro sat mattered more than how diversified its industries were</strong>. The common shock amplified spatial co-movement rather than washing it out, and broad industrial diversification offered no detectable protection, challenging the standard \"diversification as insurance\" intuition.",
     body:[
       {h:"The question"},
       {p:"A common national shock might be expected to push every regional economy the same way and flatten the role of spatial structure. COVID-19 was a chance to test that. I measure resilience through <strong>establishment exit rates</strong> (firm closures) rather than employment, because pandemic-era payroll programs (PPP, expanded unemployment) badly distorted the usual employment-based indicators."},
       {stats:[
         {n:"364",lab:"U.S. metro areas, <strong>2015–2022</strong>"},
-        {n:"ρ ≈ 0.72",lab:"spatial-lag coefficient — <strong>strong cross-metro co-movement</strong>"},
+        {n:"ρ ≈ 0.72",lab:"spatial-lag coefficient, <strong>strong cross-metro co-movement</strong>"},
         {n:"~0",lab:"detectable protective effect from <strong>industrial diversification</strong>"}
       ]},
       {h:"What I did"},
-      {p:"I estimated <strong>spatially augmented two-way fixed-effects panel models</strong> (k-nearest-neighbour spatial weights, Driscoll-Kraay and clustered standard errors) across 364 metros, then complemented them with an <strong>XGBoost model under spatial-block cross-validation</strong> as a cross-method check — testing whether a flexible algorithm without the linearity or fixed-effects assumptions tells the same story."},
+      {p:"I estimated <strong>spatially augmented two-way fixed-effects panel models</strong> (k-nearest-neighbour spatial weights, Driscoll-Kraay and clustered standard errors) across 364 metros, then complemented them with an <strong>XGBoost model under spatial-block cross-validation</strong> as a cross-method check, testing whether a flexible algorithm without the linearity or fixed-effects assumptions tells the same story."},
       {h:"What I found"},
-      {p:"Establishment exits showed strong contemporaneous spatial co-movement that <strong>intensified during the pandemic</strong> — neighbouring metros moved together more, not less, under the common shock. Broad industrial diversification was statistically indistinguishable from zero. Pre-pandemic sectoral exposure mattered only selectively (retail trade showed the clearest signal)."},
+      {p:"Establishment exits showed strong contemporaneous spatial co-movement that <strong>intensified during the pandemic</strong>, neighbouring metros moved together more, not less, under the common shock. Broad industrial diversification was statistically indistinguishable from zero. Pre-pandemic sectoral exposure mattered only selectively (retail trade showed the clearest signal)."},
       {fig:"images/rs_shap_importance.png",cap:"XGBoost feature importance (mean |SHAP|) triangulates the parametric story: manufacturing exposure, demographics, metro size, and the spatial lag of COVID severity rank highest."},
-      {p:"The machine-learning results echo the parametric models rather than contradicting them — a useful cross-method check that the spatial-structure finding isn't an artifact of one modelling choice."},
+      {p:"The machine-learning results echo the parametric models rather than contradicting them, a useful cross-method check that the spatial-structure finding isn't an artifact of one modelling choice."},
       {h:"Limitations"},
       {p:"This is a working paper (manuscript under review); the findings are descriptive rather than causal. It's included here as a worked analysis demonstrating spatial-panel econometrics and interpretable machine learning on a national MSA panel."}
     ]
@@ -644,7 +644,7 @@ const CASES = [
 ];
 
 /* ============================================================
-   PUBLICATIONS — add a new one by copying a { } block.
+   PUBLICATIONS, add a new one by copying a { } block.
    For journal articles: link to the official DOI (don't host
    the publisher's PDF). For reports you're allowed to share,
    you can link to the hosting page or a PDF in this folder.
@@ -783,7 +783,7 @@ function openCase(id){
     ${mainHtml}
     ${mapHtml}
     ${outroHtml}
-    <div class="detail-foot">Interested in the full paper, data, or code? <a href="mailto:shanyangufl@gmail.com">Get in touch</a> — happy to share.</div>`;
+    <div class="detail-foot">Interested in the full paper, data, or code? <a href="mailto:shanyangufl@gmail.com">Get in touch</a>, happy to share.</div>`;
 
   detailEl.classList.add('open');detailEl.scrollTop=0;document.body.style.overflow='hidden';
   if(c.interactive&&window.BOSTON_TRACTS&&window.L){setTimeout(initBostonMap,80);}
