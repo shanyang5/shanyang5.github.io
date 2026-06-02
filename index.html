@@ -227,10 +227,15 @@ section{padding:78px 0;position:relative}
 .step-mobfig figcaption{font-size:12.5px;color:var(--ink-soft);font-style:italic;margin-top:9px}
 @media(max-width:860px){.step-mobfig{display:block}}
 
-.detail-outro{max-width:42em;margin:30px 0 90px}
+.detail-outro{max-width:42em;margin:30px 0 40px}
 .detail-outro h3{font-family:'Fraunces',serif;font-weight:600;font-size:24px;margin:40px 0 14px}
 .detail-outro p{color:var(--ink-soft);margin-bottom:16px}
 .detail-outro p strong{color:var(--ink);font-weight:600}
+
+.detail-foot{max-width:42em;margin:10px 0 90px;padding-top:24px;border-top:1px solid var(--line);
+  font-size:15.5px;color:var(--ink-soft)}
+.detail-foot a{color:var(--indigo);font-weight:600;text-decoration:none;border-bottom:1.5px solid var(--teal)}
+.detail-foot a:hover{color:var(--teal)}
 
 /* simple body (non-scrolly cases) */
 .detail-body{max-width:44em}
@@ -359,43 +364,36 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
     <div class="hero-art" aria-hidden="true">
       <svg viewBox="0 0 400 400" preserveAspectRatio="none">
         <g>
-          <path class="gridline" style="animation-delay:.1s" d="M0,90 Q120,40 240,110 T400,80"/>
-          <path class="gridline" style="animation-delay:.3s" d="M0,160 Q140,120 250,180 T400,150"/>
-          <path class="gridline" style="animation-delay:.5s" d="M0,240 Q110,200 230,260 T400,230"/>
-          <path class="gridline" style="animation-delay:.7s" d="M0,320 Q150,280 260,330 T400,310"/>
-          <path class="gridline" style="animation-delay:.9s" d="M70,0 Q40,140 100,260 T80,400"/>
-          <path class="gridline" style="animation-delay:1.05s" d="M180,0 Q150,150 200,280 T180,400"/>
-          <path class="gridline" style="animation-delay:1.2s" d="M290,0 Q260,130 310,270 T300,400"/>
+          <path class="gridline" style="animation-delay:.1s" d="M0,300 Q120,250 240,290 T400,250"/>
+          <path class="gridline" style="animation-delay:.3s" d="M0,220 Q140,180 250,230 T400,200"/>
+          <path class="gridline" style="animation-delay:.5s" d="M0,140 Q110,110 230,160 T400,130"/>
+        </g>
+        <g stroke="rgba(233,238,243,.13)" stroke-width="1">
+          <line class="gridline" style="animation-delay:.5s" x1="60" y1="40" x2="60" y2="360"/>
+          <line class="gridline" style="animation-delay:.6s" x1="160" y1="40" x2="160" y2="360"/>
+          <line class="gridline" style="animation-delay:.7s" x1="260" y1="40" x2="260" y2="360"/>
+          <line class="gridline" style="animation-delay:.8s" x1="360" y1="40" x2="360" y2="360"/>
         </g>
         <g fill="#2aa39a">
-          <circle class="pt pulse" cx="120" cy="110" style="animation-delay:0s"/>
-          <circle class="pt pulse" cx="250" cy="180" style="animation-delay:.4s"/>
-          <circle class="pt pulse" cx="200" cy="280" style="animation-delay:.8s"/>
-          <circle class="pt pulse" cx="100" cy="260" style="animation-delay:1.2s"/>
-          <circle class="pt pulse" cx="310" cy="270" style="animation-delay:.6s"/>
-          <circle class="pt pulse" cx="180" cy="150" style="animation-delay:1s"/>
+          <circle class="pt pulse" cx="90" cy="300" style="animation-delay:0s"/>
+          <circle class="pt pulse" cx="150" cy="250" style="animation-delay:.3s"/>
+          <circle class="pt pulse" cx="200" cy="215" style="animation-delay:.6s"/>
+          <circle class="pt pulse" cx="250" cy="180" style="animation-delay:.9s"/>
+          <circle class="pt pulse" cx="300" cy="150" style="animation-delay:1.2s"/>
+          <circle class="pt pulse" cx="120" cy="190" style="animation-delay:.5s"/>
+          <circle class="pt pulse" cx="330" cy="240" style="animation-delay:.8s"/>
         </g>
         <g>
-          <circle class="hot" cx="155" cy="200" r="5" fill="#b5532a"/>
-          <circle class="ring" cx="155" cy="200"/>
-          <circle class="hot" cx="175" cy="225" r="4.5" fill="#b5532a" style="animation-delay:.5s"/>
-          <circle class="ring" cx="175" cy="225" style="animation-delay:1.5s"/>
+          <circle class="hot" cx="230" cy="120" r="5" fill="#b5532a"/>
+          <circle class="ring" cx="230" cy="120"/>
         </g>
+        <path d="M70,310 Q150,250 230,200 T360,120" fill="none" stroke="rgba(233,238,243,.5)"
+          stroke-width="2" stroke-dasharray="500" stroke-dashoffset="500" style="animation:draw 2.4s ease .8s forwards"/>
       </svg>
-      <div class="label">2SFCA accessibility surface · Boston</div>
+      <div class="label">Spatial · econometric · machine-learning models</div>
     </div>
   </div>
 </header>
-
-<!-- STAT BAND -->
-<div class="statband">
-  <div class="wrap" id="statband">
-    <div class="stat"><div class="num" data-to="24068">0</div><div class="lab">crashes analyzed across Boston, <strong>2018–2023</strong></div></div>
-    <div class="stat"><div class="num" data-to="549">0</div><div class="lab">killed or <strong>seriously injured</strong> (KSI)</div></div>
-    <div class="stat"><div class="num" data-to="196">0</div><div class="lab">census tracts screened for <strong>equity overlap</strong></div></div>
-    <div class="stat"><div class="num" data-to="2">0</div><div class="lab">priority tracts where <strong>every risk factor stacks</strong></div></div>
-  </div>
-</div>
 
 <!-- WORK -->
 <section id="work">
@@ -430,7 +428,7 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
       <div class="facts">
         <div class="fact"><div class="k">Focus</div><div class="v">Transportation · regional economics · public policy & equity</div></div>
         <div class="fact"><div class="k">Methods</div><div class="v">Econometrics · causal inference · machine learning · spatial analysis · panel data</div></div>
-        <div class="fact"><div class="k">Tools</div><div class="v">R · Python · ArcGIS Pro · QGIS · GTFS / Census / open civic data</div></div>
+        <div class="fact"><div class="k">Tools</div><div class="v">R · Python · ArcGIS Pro · SQL · GTFS / Census / open civic data</div></div>
         <div class="fact"><div class="k">Education</div><div class="v">PhD, City & Regional Planning <em>(Ohio State, 2025)</em> · MURP, GIS <em>(Florida)</em></div></div>
       </div>
     </div>
@@ -459,7 +457,7 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 <footer>
   <div class="wrap">
     <div>© <span id="yr"></span> Shan Yang · Built with open civic data</div>
-    <div class="mono">R · Python · ArcGIS · QGIS</div>
+    <div class="mono">R · Python · ArcGIS Pro · SQL</div>
   </div>
 </footer>
 
@@ -499,10 +497,6 @@ const CASES = [
       "Methods":"2SFCA accessibility · KDE · equity overlay",
       "Stack":"R (tidyverse, sf, SpatialAcc, spatstat)"
     },
-    links:[
-      {label:"View report (PDF)",href:"#",primary:true},
-      {label:"Code on GitHub",href:"#"}
-    ],
     sowhat:"Just <strong>two tracts in Roxbury</strong> carry high crash burden, weak transit, AND low income at the same time — a precise, defensible starting point for early-action Vision Zero investment, rather than a citywide program spread thin.",
     interactive:true,
     // Each step swaps the sticky figure on the left as you scroll.
@@ -543,9 +537,7 @@ const CASES = [
       "Methods":"Spatially augmented two-way FE panel + XGBoost (spatial-block CV)",
       "Stack":"R (panel models, spatial weights, XGBoost/SHAP)"
     },
-    links:[
-      {label:"Read the working paper",href:"#",primary:true}
-    ],
+    links:[],
     sowhat:"For business closures during a national shock, <strong>where a metro sat mattered more than how diversified its industries were</strong>. The common shock amplified spatial co-movement rather than washing it out — and broad industrial diversification offered no detectable protection, challenging the standard \"diversification as insurance\" intuition.",
     body:[
       {h:"The question"},
@@ -670,7 +662,7 @@ let stepObserver=null;
 
 function openCase(id){
   const c=CASES.find(x=>x.id===id);if(!c)return;
-  const linkHtml=c.links.map(l=>`<a class="btn ${l.primary?'btn-primary':'btn-ghost'}" href="${l.href}" target="_blank">${l.label}</a>`).join('');
+  const linkHtml=(c.links&&c.links.length)?`<div class="detail-links">${c.links.map(l=>`<a class="btn ${l.primary?'btn-primary':'btn-ghost'}" href="${l.href}" target="_blank">${l.label}</a>`).join('')}</div>`:'';
   const metaHtml=Object.entries(c.meta).map(([k,v])=>`<div class="dm"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 
   let mainHtml='';
@@ -720,12 +712,13 @@ function openCase(id){
     <div class="detail-kicker">${c.kicker}</div>
     <h1 class="detail-title">${c.title}</h1>
     <p class="detail-lede">${c.sub}</p>
-    <div class="detail-links">${linkHtml}</div>
+    ${linkHtml}
     <div class="detail-meta">${metaHtml}</div>
     <div class="sowhat"><div class="lbl">Bottom line</div><p>${c.sowhat}</p></div>
     ${mainHtml}
     ${mapHtml}
-    ${outroHtml}`;
+    ${outroHtml}
+    <div class="detail-foot">Interested in the full paper, data, or code? <a href="mailto:shanyangufl@gmail.com">Get in touch</a> — happy to share.</div>`;
 
   detailEl.classList.add('open');detailEl.scrollTop=0;document.body.style.overflow='hidden';
   if(c.interactive&&window.BOSTON_TRACTS&&window.L){setTimeout(initBostonMap,80);}
@@ -837,22 +830,6 @@ function initBostonMap(){
   buildToggle();buildLegend();
   setTimeout(()=>_bmap.invalidateSize(),120);
 }
-
-/* ---------- count-up stats ---------- */
-function countUp(el){
-  const to=+el.dataset.to;const dur=1400;const t0=performance.now();
-  function tick(t){
-    const p=Math.min((t-t0)/dur,1);
-    const e=1-Math.pow(1-p,3);
-    el.textContent=Math.round(to*e).toLocaleString('en-US');
-    if(p<1)requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-const statObs=new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting){e.target.querySelectorAll('.num').forEach(countUp);statObs.unobserve(e.target);}
-}),{threshold:.4});
-statObs.observe(document.getElementById('statband'));
 
 /* ---------- misc ---------- */
 document.getElementById('yr').textContent=new Date().getFullYear();
