@@ -441,7 +441,7 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
         <div class="fact"><div class="k">Methods</div><div class="v">Econometrics · causal inference · machine learning · spatial analysis · panel data</div></div>
         <div class="fact"><div class="k">Tools</div><div class="v">R · Python · ArcGIS Pro & Online · SQL</div></div>
         <div class="fact"><div class="k">Data</div><div class="v">Census & survey · administrative & business records · geospatial · public & proprietary sources</div></div>
-        <div class="fact"><div class="k">Education</div><div class="v">PhD, City & Regional Planning <em>(Ohio State, 2025)</em> · Master of Urban & Regional Planning, GIS and transportation <em>(University of Florida)</em></div></div>
+        <div class="fact"><div class="k">Education</div><div class="v">PhD, City & Regional Planning <em>(The Ohio State University, 2025)</em> · Master of Urban & Regional Planning <em>(University of Florida)</em></div></div>
       </div>
     </div>
   </div>
@@ -459,7 +459,6 @@ footer .mono{font-family:'JetBrains Mono',monospace;font-size:12px}
       </div>
       <div class="contact-links">
         <a class="clink" href="mailto:shanyangufl@gmail.com">✉  shanyangufl@gmail.com</a>
-        <a class="clink" href="https://github.com/shanyang5" target="_blank">⌥  GitHub</a>
         <a class="clink" href="https://www.linkedin.com/in/shan-yang-phd-b1573313b/" target="_blank">in  LinkedIn</a>
       </div>
     </div>
@@ -499,7 +498,7 @@ const CASES = [
     id:"houston-eviction",
     kicker:"Housing Policy · Spatial Econometrics · Event Study",
     title:"When Eviction Protection Ended: Houston's Post-Moratorium Rebound",
-    sub:"After the CDC moratorium was struck down, did eviction filings come back harder in higher-minority neighborhoods? A tract-level event study across Harris County.",
+    sub:"After the CDC eviction moratorium was struck down, did eviction filings come back harder in higher-minority neighborhoods? A tract-level event study across Harris County.",
     thumb:"images/houston_eviction_rate_map.png",
     badge:"Scroll story",
     minitags:["Poisson event study","Two-way FE","Eviction Lab · ACS","R · fixest · sf"],
@@ -783,7 +782,7 @@ function openCase(id){
     ${mainHtml}
     ${mapHtml}
     ${outroHtml}
-    <div class="detail-foot">Interested in the full paper, data, or code? <a href="mailto:shanyangufl@gmail.com">Get in touch</a>, happy to share.</div>`;
+    <div class="detail-foot">Interested in the full paper, data, or code? <a href="#contact" onclick="goContact();return false;">Get in touch</a>, happy to share.</div>`;
 
   detailEl.classList.add('open');detailEl.scrollTop=0;document.body.style.overflow='hidden';
   if(c.interactive&&window.BOSTON_TRACTS&&window.L){setTimeout(initBostonMap,80);}
@@ -807,6 +806,8 @@ function openCase(id){
   }
 }
 function closeCase(){detailEl.classList.remove('open');document.body.style.overflow='';progressEl.style.width='0';if(_bmap){_bmap.remove();_bmap=null;}}
+function goContact(){closeCase();setTimeout(function(){var c=document.getElementById('contact');if(c)c.scrollIntoView({behavior:'smooth'});},90);}
+window.goContact=goContact;
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCase();});
 detailEl.addEventListener('scroll',()=>{
   const h=detailEl.scrollHeight-detailEl.clientHeight;
